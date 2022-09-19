@@ -1,0 +1,26 @@
+[package]
+name = "rlens"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+atty = "0.2.14"
+clap = { version = "3.2.20", features = ["derive"] }
+directories = "4.0.1"
+enum-map = "2.4.1"
+euclid = "0.22.7"
+femtovg = { version = "0.3.5", default-features = false }
+glutin = "0.29.1"
+hex = "0.4.3"
+image = "0.24.3"
+md-5 = "0.10.1"
+rlua = "0.19.4"
+serde = { version = "1.0.144", features = ["derive"] }
+toml = "0.5.9"
+
+[features]
+default = ["embedded_font"]
+embedded_font = []
+
