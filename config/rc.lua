@@ -81,7 +81,8 @@ end
 set_scaling()
 
 function next_scaling_mode()
-    scaling = scaling % #scaling_modes + 1
+    scaling_mode = scaling_mode % #scaling_modes + 1
+    set_scaling()
 end
 
 
