@@ -1,0 +1,6 @@
+#thumbnail_dir = ''  # The directory that thumbnails are saved to
+#thumbnail_size = 256  # The size thumbnails are generated at
+
+[font]
+#path = ''  # Path to a ttf/otf font file
+#size = 25  # Font size
