@@ -1,11 +1,11 @@
 # rlens default configuration
 
-This folder contains a default configuration for rlens.\
+This directory contains a default configuration for rlens.\
 The lua rc is responsible for setting all keybinds, so without one rlens is useless.
+You could use it as a template, or start the rc from scratch.
 
 ### Default keybinds
-These are the keybinds set in `rc.lua`.\
-You could use them as a template or start the config from scratch.
+These are the keybinds set by `rc.lua`.
 
 #### General
 | Key | Action                              |
@@ -16,10 +16,10 @@ You could use them as a template or start the config from scratch.
 | `R` | Reload the current image            |
 
 #### Mode changing
-| Key      | Action                                                     |
-| :------- | :--------------------------------------------------------- |
-| `Tab`    | Toggle between image mode and gallery mode                 |
-| `Return` | Select an image from the gallery to view in the image mode |
+| Key      | Action                                       |
+| :------- | :------------------------------------------- |
+| `Tab`    | Toggle between image mode and gallery mode   |
+| `Return` | Open the current gallery image in image mode |
 
 #### Image mode navigation
 | Key          | Action                   |
