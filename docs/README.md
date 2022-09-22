@@ -25,6 +25,10 @@ Alternatively, paths can be provided by stdin.\
 #### Not provided
 * Animation support - When viewing animated image files rlens shows only the first frame
 
+### Screenshots
+
+<img src="gallery-demo.png" width="45%"> <img src="image-view-demo.png" width="45%" align="top">
+
 ### Configuration
 rlens is configured by two files:
 * `config.toml`: A toml file specifying settings required on startup
