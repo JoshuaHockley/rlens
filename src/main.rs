@@ -46,9 +46,9 @@ struct Args {
     /// Paths to image files
     #[clap(value_name = "PATH")]
     paths: Vec<PathBuf>,
-    /// The image to start at
-    #[clap(long = "start-at", short = 's', value_name = "PATH")]
-    initial_image: Option<PathBuf>,
+    /// The image to start at ([1..])
+    #[clap(long = "start-at", short = 's', value_name = "INDEX")]
+    initial_image: Option<usize>,
     /// Configuration flag passed into lua
     #[clap(long = "flag", short, value_name = "NAME:VALUE")]
     flags: Vec<ConfigFlag>,
@@ -101,17 +101,16 @@ fn main_() -> Result<(), String> {
     // Initial image
     let initial_index = args
         .initial_image
-        .map(|initial_path| {
-            // Find the index of the requested image
-            paths
-                .iter()
-                .position(|p| p == &initial_path)
-                .ok_or_else(|| {
-                    format!(
-                        "The initial image `{}` was not found in the provided paths",
-                        initial_path.display()
-                    )
-                })
+        .map(|i| {
+            if i < 1 || i > paths.len() {
+                Err(format!(
+                    "Error: Index `{}` is out of range (max: {})",
+                    i,
+                    paths.len()
+                ))
+            } else {
+                Ok(i - 1)
+            }
         })
         .transpose()?
         // Default to the first image
