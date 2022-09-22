@@ -156,9 +156,6 @@ impl Program {
                 }
                 _ => {}
             },
-            RedrawRequested(_) => {
-                self.draw();
-            }
             _ => {}
         }
     }
@@ -175,6 +172,9 @@ impl Program {
     fn on_resize(&mut self) {
         // Update graphics infrastructure
         self.gfx.on_resize();
+
+        // Redraw to fit the window
+        self.draw();
 
         // Thumbnail loading
         if self.rlens.mode() == Mode::Gallery {
