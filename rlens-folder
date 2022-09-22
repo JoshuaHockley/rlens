@@ -1,0 +1,71 @@
+#!/usr/bin/env python3
+
+# rlens wrapper for opening all the images in a file's directory, starting at that file
+# Usage: rlens-folder [path]
+
+from sys import argv, exit
+from os import scandir
+from os.path import exists, join, dirname, splitext, normpath
+from subprocess import run
+from re import split
+
+
+# Get the path from cmdline args
+args = argv
+if len(args) < 2:
+    exit('Error: No path was provided')
+if len(args) > 2:
+    exit('Error: More than one path was provided')
+path = argv[1]
+
+path = normpath(path)
+
+if not exists(path):
+    exit(f'Error: `{path}` does not exist')
+
+# Get the directory of the image - This is the folder that we will 'open'
+dir = dirname(path)
+
+# Ensure we have an explicit directory to match `scandir` output
+# (convert `a.png` to `./a.png`)
+if dir == '':
+    dir = '.'
+    path = join('.', path)
+
+# File extensions recognised as images
+image_extensions = [
+    '.png',
+    '.jpg', '.jpeg',
+    '.gif',
+    '.bmp',
+    '.ico',
+    '.tiff', '.tif'
+    '.webp',
+    '.avif',
+]
+
+# Test whether a filepath has a recognisable image extension
+def test_ext(p):
+    _, ext = splitext(p)
+    return ext in image_extensions
+
+# If we are opening a file not recognised as an image, fallback to opening only the file
+if not test_ext(path):
+    run(['rlens', path])
+    exit()
+
+# Find other image files in the directory
+paths = [e.path for e in scandir(dir) if e.is_file() and test_ext(e.name)]
+
+# Sort the files naturally ('1' < '2' < '10')
+def natural_sort_key(s):
+    return [int(s) if s.isdigit() else s.lower() for s in split(r'(\d+)', s)]
+
+paths.sort(key=natural_sort_key)
+
+# Get the index of the target file
+index = paths.index(path) + 1
+
+# Run rlens
+path_str = '\n'.join(paths)
+run(['rlens', '--start-at', str(index)], input=path_str, text=True)
