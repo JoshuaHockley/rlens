@@ -39,9 +39,14 @@ image_extensions = [
     '.gif',
     '.bmp',
     '.ico',
-    '.tiff', '.tif'
+    '.tiff', '.tif',
     '.webp',
     '.avif',
+    '.pnm', '.pbm', '.pgm', '.ppm', '.pam',
+    '.dds',
+    '.tga',
+    '.exr',
+    '.ff',
 ]
 
 # Test whether a filepath has a recognisable image extension
