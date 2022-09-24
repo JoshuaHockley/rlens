@@ -16,7 +16,6 @@ Alternatively, paths can be provided by stdin.\
 * A scriptable status bar
 * [lua](https://www.lua.org/) based configuration
 * Cross-platform (including Wayland)
-* Pure rust - No external dependencies required
 
 #### Future
 * Simple command line for interacting with rlens without keybinds (e.g. `:goto 4`)
@@ -47,4 +46,38 @@ A small python utility is provided for opening all the images in a file's direct
 `rlens-folder images/b.jpg` will run `rlens --start-at 2 a.png b.jpg c.webp`.
 
 This is intended to be used as the default image opener for file explorers, for more smoothly browsing a folder of images.
+
+### Building
+
+Build rlens with [`cargo`](https://www.rust-lang.org/tools/install) from the project root:
+```
+cargo install --path . --features builtin-lua54
+```
+
+#### lua
+
+rlens requires a copy of lua to run.\
+To determine the source and version, of one of the following features must be specified: `builtin-lua54`, `builtin-lua53`, `builtin-lua51`, `system-lua54`, `system-lua53`, `system-lua51`.
+
+The `builtin-lua*` options locally build and embed lua into rlens, and as such require a `C` compiler to be present on the system.\
+The `system-lua*` options link to an installed copy of lua, and require `pkg-config` to search for it.
+
+For example, to link to a system copy of lua v5.4:
+```
+cargo install --path . --features system-lua54
+```
+
+#### Embedded font
+
+By default, a copy of [noto sans](https://fonts.google.com/noto/specimen/Noto+Sans) is embedded into rlens.
+You can disable this by using the `--no-default-features` flag.\
+For example:
+```
+cargo install --path . --features builtin-lua54 --no-default-features
+```
+Note that it will then be required to specify a local font in `config.toml`:
+```
+[font]
+path = '...'
+```
 
