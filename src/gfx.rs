@@ -98,11 +98,11 @@ impl Font {
 
 /// Canvas utility methods
 pub trait CanvasExt {
+    fn clear(&mut self);
+
     fn set_transform_(&mut self, transform: Transform);
 
     fn set_scissor(&mut self, bounds: Rect);
-
-    fn clear_rect_(&mut self, rect: Rect, color: Color);
 
     fn draw_rect(&mut self, rect: Rect, color: Color);
 
@@ -126,6 +126,17 @@ pub trait CanvasExt {
 }
 
 impl CanvasExt for Canvas {
+    fn clear(&mut self) {
+        const CLEAR: Color = Color {
+            r: 0.0,
+            g: 0.0,
+            b: 0.0,
+            a: 0.0,
+        };
+
+        self.clear_rect(0, 0, self.width() as u32, self.height() as u32, CLEAR);
+    }
+
     fn set_transform_(&mut self, transform: Transform) {
         let t = transform.to_array();
         self.set_transform(t[0], t[1], t[2], t[3], t[4], t[5]);
@@ -133,11 +144,6 @@ impl CanvasExt for Canvas {
 
     fn set_scissor(&mut self, bounds: Rect) {
         self.scissor(bounds.min.x, bounds.min.y, bounds.width(), bounds.height());
-    }
-
-    fn clear_rect_(&mut self, rect: Rect, color: Color) {
-        let rect = rect.cast::<u32>();
-        self.clear_rect(rect.min.x, rect.min.y, rect.width(), rect.height(), color);
     }
 
     fn draw_rect(&mut self, rect: Rect, color: Color) {

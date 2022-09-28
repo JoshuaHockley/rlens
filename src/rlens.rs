@@ -253,8 +253,6 @@ impl RLens {
 }
 
 // === Image loading ===
-//
-// These operations are called from the image loader thread
 
 impl RLens {
     /// Set a full image or thumbnail as loaded
@@ -428,8 +426,11 @@ impl RLens {
 
         let segment_bounds = self.segment_bounds(size, &gfx.font);
 
+        // Clear the canvas
+        gfx.canvas.clear();
+
         // Background
-        self.draw_background(segment_bounds.all, gfx);
+        gfx.canvas.draw_rect(segment_bounds.all, self.bg_color);
 
         // Main view
         match self.mode {
@@ -450,11 +451,6 @@ impl RLens {
 
         // Render to the window
         gfx.draw_frame();
-    }
-
-    /// Draw the background of rlens
-    fn draw_background(&self, bounds: Rect, gfx: &mut Gfx) {
-        gfx.canvas.clear_rect_(bounds, self.bg_color);
     }
 }
 
