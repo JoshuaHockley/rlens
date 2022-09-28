@@ -179,7 +179,7 @@ impl Gallery {
 
 impl Gallery {
     /// Draw the gallery
-    pub fn draw(&self, images: &[Image], bounds: Rect, gfx: &mut Gfx) {
+    pub fn draw(&self, images: &[Image], backdrop_color: Color, bounds: Rect, gfx: &mut Gfx) {
         let tiling = match self.tiling(bounds.size()) {
             Some(t) => t,
             _ => {
@@ -243,7 +243,7 @@ impl Gallery {
         for (thumbnail, inner_tile) in thumbnails.zip(inner_tiles) {
             if let Some(thumbnail) = thumbnail.loaded() {
                 // Draw the thumbnail in the inner tile
-                draw_thumbnail(thumbnail, inner_tile, gfx);
+                draw_thumbnail(thumbnail, backdrop_color, inner_tile, gfx);
             } else {
                 // The thumbnail is not loaded so draw a placeholder instead
                 draw_placeholder(inner_tile, self.placeholder_border_color, gfx);
@@ -253,7 +253,7 @@ impl Gallery {
 }
 
 /// Draw the thumbnail within the given bounds, centered and not stretched
-fn draw_thumbnail(thumbnail: &LoadedImage, bounds: Rect, gfx: &mut Gfx) {
+fn draw_thumbnail(thumbnail: &LoadedImage, backdrop_color: Color, bounds: Rect, gfx: &mut Gfx) {
     let thumbnail_size = thumbnail.size();
 
     if thumbnail_size.is_empty() {
@@ -275,6 +275,9 @@ fn draw_thumbnail(thumbnail: &LoadedImage, bounds: Rect, gfx: &mut Gfx) {
 
     // The true bounds of the thumbnail within the tile
     let image_bounds = Rect::from_origin_and_size(bounds.min + offset, scaled_thumbnail_size);
+
+    // Draw the backdrop
+    gfx.canvas.draw_rect(image_bounds, backdrop_color);
 
     // Draw the thumbnail
     gfx.canvas.draw_image(thumbnail.id(), image_bounds);

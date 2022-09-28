@@ -5,6 +5,8 @@ use crate::gfx::{CanvasExt, Gfx};
 use crate::image::{Image, LoadedImage};
 use crate::image_transform::{Align, ImageTransform, Scaling};
 
+use femtovg::Color;
+
 pub struct ImageView {
     /// Index of the current image
     /// Valid index into `rlens.images`
@@ -94,15 +96,15 @@ impl ImageView {
 
 impl ImageView {
     /// Draw the image view if the current image is loaded
-    pub fn draw(&self, images: &[Image], gfx: &mut Gfx) {
+    pub fn draw(&self, images: &[Image], backdrop_color: Color, gfx: &mut Gfx) {
         if let Some(loaded_image) = self.current_loaded_image(images) {
-            self.draw_image(loaded_image, gfx);
+            self.draw_image(loaded_image, backdrop_color, gfx);
         }
     }
 
     /// Draw the image view with the given image
     /// Pre: `image` is the current image
-    fn draw_image(&self, image: &LoadedImage, gfx: &mut Gfx) {
+    fn draw_image(&self, image: &LoadedImage, backdrop_color: Color, gfx: &mut Gfx) {
         let canvas = &mut gfx.canvas;
 
         let id = image.id();
@@ -120,7 +122,10 @@ impl ImageView {
             // Apply the current transform to the canvas
             canvas.set_transform_(transform);
 
-            // Draw the image to the canvas
+            // Draw the backdrop
+            canvas.draw_rect(bounds, backdrop_color);
+
+            // Draw the image
             canvas.draw_image(id, bounds);
         });
     }

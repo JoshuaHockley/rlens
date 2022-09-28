@@ -57,6 +57,7 @@ The following functions are found under the `rlens` table in lua. For example: `
 | `freeze()` | Freeze rlens - All drawing will be prevented until `unfreeze()` is called |
 | `unfreeze()` | Unfreeze rlens and redraw |
 | `bg_color(color)` | Set the background color of rlens |
+| `backdrop_color(color)` | Set the color of the image backdrop |
 | `gallery_cursor_color(color)` | Set the color of the gallery cursor |
 | `gallery_border_color(color)` | Set the color of the borders of unloaded thumbnails in the gallery |
 | `status_bar_color(color)` | Set the background color of the status bar |

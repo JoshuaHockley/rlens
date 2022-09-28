@@ -2,7 +2,7 @@
 
 use crate::gallery::Gallery;
 use crate::geometry::*;
-use crate::gfx::{CanvasExt, Font, Gfx};
+use crate::gfx::{CanvasExt, Font, Gfx, CLEAR};
 use crate::image::{Image, LoadedImage, Metadata};
 use crate::image_transform::{Align, ImageTransform, Scaling};
 use crate::image_view::ImageView;
@@ -44,6 +44,9 @@ pub struct RLens {
 
     /// The background color of rlens
     bg_color: Color,
+    /// Color of the image backdrop
+    /// This is visible when images are partially transparent
+    backdrop_color: Color,
 
     /// Whether draw requests should be ignored
     frozen: bool,
@@ -85,6 +88,7 @@ impl RLens {
             status_bar_position: StatusBarPosition::default(),
 
             bg_color: Color::black(),
+            backdrop_color: CLEAR,
 
             frozen: false,
         }
@@ -237,6 +241,10 @@ impl RLens {
 
     pub fn set_bg(&mut self, color: Color) {
         self.bg_color = color;
+    }
+
+    pub fn set_backdrop_color(&mut self, color: Color) {
+        self.backdrop_color = color;
     }
 
     pub fn set_gallery_cursor_color(&mut self, color: Color) {
@@ -435,11 +443,12 @@ impl RLens {
         // Main view
         match self.mode {
             Mode::Image => {
-                self.image_view.draw(&self.images, gfx);
+                self.image_view.draw(&self.images, self.backdrop_color, gfx);
             }
             Mode::Gallery => {
                 let bounds = segment_bounds.negative_bar;
-                self.gallery.draw(&self.images, bounds, gfx);
+                self.gallery
+                    .draw(&self.images, self.backdrop_color, bounds, gfx);
             }
         }
 

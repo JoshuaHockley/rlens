@@ -1049,6 +1049,18 @@ impl Command for BgColor {
     }
 }
 
+/// Set the color of the image backdrop
+#[derive(Debug)]
+pub struct BackdropColor(pub Color);
+
+impl Command for BackdropColor {
+    fn run(&self, p: &mut Program, _: &mut Hooks, _: ()) -> CommandResult<()> {
+        p.rlens.set_backdrop_color(self.0 .0);
+        redraw(p);
+        Ok(())
+    }
+}
+
 /// Set the highlight color of the cursor in the gallery
 #[derive(Debug)]
 pub struct GalleryCursorColor(pub Color);

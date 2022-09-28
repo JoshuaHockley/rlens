@@ -287,6 +287,7 @@ impl<'lua> LuaContext<'lua> {
         self.load_rlens("unfreeze", wrap_nullary_command(|| command::Unfreeze, &tx))?;
 
         self.load_rlens("bg_color", wrap_command(command::BgColor, &tx))?;
+        self.load_rlens("backdrop_color", wrap_command(command::BackdropColor, &tx))?;
         self.load_rlens(
             "gallery_cursor_color",
             wrap_command(command::GalleryCursorColor, &tx),

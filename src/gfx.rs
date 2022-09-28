@@ -31,6 +31,13 @@ pub struct Font {
 
 pub type FemtovgResult<T> = Result<T, femtovg::ErrorKind>;
 
+pub const CLEAR: Color = Color {
+    r: 0.0,
+    g: 0.0,
+    b: 0.0,
+    a: 0.0,
+};
+
 impl Gfx {
     /// Init the graphics infrastructure
     pub fn init(window: Window, font_data: &[u8], font_size: f32) -> Result<Self, String> {
@@ -127,13 +134,6 @@ pub trait CanvasExt {
 
 impl CanvasExt for Canvas {
     fn clear(&mut self) {
-        const CLEAR: Color = Color {
-            r: 0.0,
-            g: 0.0,
-            b: 0.0,
-            a: 0.0,
-        };
-
         self.clear_rect(0, 0, self.width() as u32, self.height() as u32, CLEAR);
     }
 
