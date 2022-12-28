@@ -11,12 +11,12 @@ from re import split
 
 
 # Get the path from cmdline args
-args = argv
-if len(args) < 2:
-    exit('Error: No path was provided')
-if len(args) > 2:
-    exit('Error: More than one path was provided')
-path = argv[1]
+args = argv[1:]
+if len(args) != 1:
+    # Fallback to normal behaviour
+    run(['rlens'] + args)
+    exit()
+path = args[0]
 
 path = normpath(path)
 
