@@ -1,7 +1,7 @@
 //! Module for handling keyboard input for keybindings
 
-use glutin::event::{ElementState, KeyboardInput, ModifiersState, VirtualKeyCode};
 use std::str::FromStr;
+use winit::event::{ElementState, KeyboardInput, ModifiersState, VirtualKeyCode};
 
 /// Identification for a specific keypress, including modifiers
 /// The type is opaque and should only be used for its `Eq` and `Hash` capabilities

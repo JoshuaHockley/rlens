@@ -46,8 +46,9 @@ impl Gfx {
             font_data: &[u8],
             font_size: f32,
         ) -> FemtovgResult<(Canvas, Font)> {
-            let renderer =
-                unsafe { renderer::OpenGl::new_from_function(|s| window.context_proc_address(s)) }?;
+            let renderer = unsafe {
+                renderer::OpenGl::new_from_function_cstr(|s| window.context_proc_address(s))
+            }?;
 
             let mut canvas = Canvas::new(renderer)?;
 
@@ -57,7 +58,7 @@ impl Gfx {
                 let mut paint = Paint::default();
                 paint.set_font(&[font_id]);
                 paint.set_font_size(font_size);
-                canvas.measure_font(paint)?.height()
+                canvas.measure_font(&paint)?.height()
             };
 
             let font = Font {
@@ -138,8 +139,7 @@ impl CanvasExt for Canvas {
     }
 
     fn set_transform_(&mut self, transform: Transform) {
-        let t = transform.to_array();
-        self.set_transform(t[0], t[1], t[2], t[3], t[4], t[5]);
+        self.set_transform(&femtovg::Transform2D(transform.to_array()));
     }
 
     fn set_scissor(&mut self, bounds: Rect) {
@@ -152,7 +152,7 @@ impl CanvasExt for Canvas {
 
         let paint = Paint::color(color);
 
-        self.fill_path(&mut path, paint);
+        self.fill_path(&mut path, &paint);
     }
 
     fn draw_rect_outline(&mut self, rect: Rect, line_width: f32, color: Color) {
@@ -162,7 +162,7 @@ impl CanvasExt for Canvas {
         let mut paint = Paint::color(color);
         paint.set_line_width(line_width);
 
-        self.stroke_path(&mut path, paint);
+        self.stroke_path(&mut path, &paint);
     }
 
     fn draw_image(&mut self, image: ImageId, bounds: Rect) {
@@ -179,7 +179,7 @@ impl CanvasExt for Canvas {
             1.0,
         );
 
-        self.fill_path(&mut path, paint);
+        self.fill_path(&mut path, &paint);
     }
 
     /// Draw text within the bounds with the given align
@@ -211,7 +211,7 @@ impl CanvasExt for Canvas {
         self.save();
         self.set_scissor(bounds);
 
-        let metrics = self.fill_text(anchor.x, anchor.y, text, paint);
+        let metrics = self.fill_text(anchor.x, anchor.y, text, &paint);
 
         self.restore();
 

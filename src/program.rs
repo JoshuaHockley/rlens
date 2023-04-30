@@ -12,16 +12,16 @@ use crate::rlens::{Mode, RLens};
 use crate::util::{PrintErr, PrintLuaErr};
 use crate::window::Window;
 
-use glutin::{
-    event::{self, KeyboardInput},
-    event_loop,
-    platform::run_return::EventLoopExtRunReturn,
-};
 use std::borrow::Cow;
 use std::fmt::Debug;
 use std::path::PathBuf;
 use std::sync::mpsc::{channel, Sender, SyncSender};
 use std::thread::{spawn, JoinHandle};
+use winit::{
+    event::{self, KeyboardInput},
+    event_loop,
+    platform::run_return::EventLoopExtRunReturn,
+};
 
 /// Run rlens and exit safely
 pub fn rlens(images: Vec<PathBuf>, initial_index: usize, settings: Settings) -> Result<(), String> {
@@ -206,6 +206,7 @@ impl Program {
     }
 }
 
+/// Helpers
 impl Program {
     /// Draw the state of the program
     pub fn draw(&mut self) {
