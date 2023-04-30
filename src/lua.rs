@@ -30,7 +30,7 @@ pub struct Lua {
 pub struct LuaContext<'lua>(Context<'lua>);
 
 /// A flag that is set as a lua variable before running the rc
-#[derive(Debug)]
+#[derive(Clone, Debug)]
 pub struct ConfigFlag {
     /// The name of the flag
     pub name: String,
